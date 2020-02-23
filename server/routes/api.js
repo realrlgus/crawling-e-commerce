@@ -20,10 +20,10 @@ router.get("/items", (req, res) => {
 });
 
 router.get("/items/:id", (req, res) => {
-  const {
+  let {
     params: { id }
   } = req;
-
+  id = parseInt(id);
   connection.query(
     `SELECT * FROM ecommerce_data where idx = ${id}`,
     (err, rows) => {
@@ -31,6 +31,42 @@ router.get("/items/:id", (req, res) => {
         res.json(rows);
       } else {
         res.json({ error: "can't find data!" });
+      }
+    }
+  );
+});
+
+router.post("/items", (req, res) => {
+  const {
+    body: {
+      productName,
+      keyword,
+      price,
+      fee,
+      productUrl,
+      crawlingTime,
+      crawlingSite,
+      saler
+    }
+  } = req;
+  connection.query(
+    `INSERT INTO ecommerce_data 
+      (productName , keyword, price, fee , productUrl, crawlingTime, crawlingSite, saler) 
+        VALUES (
+          '${productName}',
+          '${keyword}',
+           ${price},
+           ${fee},
+          '${productUrl}',
+          '${crawlingTime}',
+          '${crawlingSite}',
+          '${saler}'
+        )`,
+    (err, result) => {
+      if (!err) {
+        res.json({ result: result.insertId });
+      } else {
+        res.json({ error: "Error while save data" });
       }
     }
   );

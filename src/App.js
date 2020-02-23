@@ -4,11 +4,14 @@ class App extends React.Component {
   state = {
     test: null
   };
-  componentDidMount() {
-    console.log("test");
-  }
+  componentDidMount() {}
   render() {
-    return <div>test</div>;
+    return (
+      <form method="post" action="http://localhost:3001/api/items">
+        <input type="text" name="test" value="123" />
+        <input type="submit" />
+      </form>
+    );
   }
 }
 
