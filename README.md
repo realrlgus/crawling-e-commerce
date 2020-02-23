@@ -9,3 +9,8 @@
     - [x] [GET] /api/items/:id -> 해당하는 아이디의 상품 정보를 가져옴
     - [x] [POST] /api/items -> 상품 정보를 입력함
     - [x] [GET] /api/keyword -> kmug의 모든 키워드를 가져옴
+
+## 2020-02-24
+
+- TODO LIST
+  - [ ] 상품 리스트 보여주기 [샘플]
