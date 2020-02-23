@@ -5,5 +5,7 @@
 - TODO LIST
   - [x] react + nodejs 연동
   - [x] nodejs를 이용한 api server 구축
-    - [x] /api/items -> 모든 상품 정보를 가져옴
-    - [x] /api/items/:id -> 해당하는 아이디의 상품 정보를 가져옴
+    - [x] [GET] /api/items -> 모든 상품 정보를 가져옴
+    - [x] [GET] /api/items/:id -> 해당하는 아이디의 상품 정보를 가져옴
+    - [x] [POST] /api/items -> 상품 정보를 입력함
+    - [x] [GET] /api/keyword -> kmug의 모든 키워드를 가져옴

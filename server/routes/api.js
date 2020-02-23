@@ -36,6 +36,19 @@ router.get("/items/:id", (req, res) => {
   );
 });
 
+router.get("/keyword", (req, res) => {
+  connection.query(
+    "select distinct keyword from kmugstore_data order by idx asc",
+    (err, rows) => {
+      if (!err) {
+        res.json(rows);
+      } else {
+        res.json({ error: "can't find data!" });
+      }
+    }
+  );
+});
+
 router.post("/items", (req, res) => {
   const {
     body: {
