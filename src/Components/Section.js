@@ -8,27 +8,22 @@ const Container = styled.div`
   }
 `;
 
-const Title = styled.span`
-  font-size: 14px;
-  font-weight: 600;
-`;
-
 const Grid = styled.div`
-  margin-top: 25px;
+  margin: 25px auto 0px auto;
   display: grid;
-  grid-template-columns: repeat(auto-fill, 180px);
-  grid-gap: 100px;
+  grid-template-columns: repeat(auto-fill, 400px);
+  grid-gap: 50px;
+  justify-content: center;
+  align-items: center;
 `;
 
-const Section = ({ title, children }) => (
+const Section = ({ children }) => (
   <Container>
-    <Title>{title}</Title>
     <Grid>{children}</Grid>
   </Container>
 );
 
 Section.propTypes = {
-  title: PropTypes.string.isRequired,
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node

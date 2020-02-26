@@ -7,16 +7,23 @@ import Poster from "../../Components/Poster";
 
 const Container = styled.div``;
 const Item = styled.div``;
-const HomePresenter = ({ items, loading }) =>
+const HomePresenter = ({ items, priceData, loading }) =>
   loading ? (
     <Loader />
   ) : (
     <Container>
-      {console.log(items)}
       {items && items.length > 0 && (
-        <Section title="상품리스트">
+        <Section>
           {items.map(item => (
-            <Poster key={item.idx} title={item.productName} />
+            <Poster
+              key={item.idx}
+              id={item.idx}
+              title={item.productName}
+              bgUrl={item.imgUrl}
+              price={item.price}
+              keyword={item.keyword}
+              store_price={priceData[item.keyword]}
+            />
           ))}
         </Section>
       )}

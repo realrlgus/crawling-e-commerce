@@ -12,6 +12,7 @@ const GlobalStyle = createGlobalStyle`
         background-color:white;
         color:black;
         padding-top:50px;
+        overflow-x:hidden;
         
     }
     *{

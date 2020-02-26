@@ -9,6 +9,19 @@ const connection = mysql.createConnection({
   database: "crawler"
 });
 
+router.get("/kmug_items", (req, res) => {
+  connection.query(
+    "select * from kmugstore_data group by keyword",
+    (err, rows) => {
+      if (!err) {
+        res.json(rows);
+      } else {
+        res.json({ error: "can't find data!" });
+      }
+    }
+  );
+});
+
 router.get("/items", (req, res) => {
   connection.query("SELECT * FROM ecommerce_data", (err, rows) => {
     if (!err) {
@@ -17,6 +30,29 @@ router.get("/items", (req, res) => {
       res.json({ error: "can't find data!" });
     }
   });
+});
+
+router.get("/items_price", (req, res) => {
+  connection.query(
+    "select min(price) as price , crawlingSite, keyword from ecommerce_data group by crawlingSite , keyword order by keyword",
+    (err, rows) => {
+      if (!err) {
+        let arr = [];
+        for (const idx in rows) {
+          const price = rows[idx]["price"];
+          const crawlingSite = rows[idx]["crawlingSite"];
+          const keyword = rows[idx]["keyword"];
+          let obj = {};
+          obj[keyword] = {};
+          obj[keyword][crawlingSite] = price;
+          arr.push(obj);
+        }
+        res.json(arr);
+      } else {
+        res.json({ error: "can't find data!" });
+      }
+    }
+  );
 });
 
 router.get("/items/:id", (req, res) => {
