@@ -64,8 +64,8 @@ const Poster = ({ id, bgUrl, title, price, keyword, store_price }) => (
         <Bold>{price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Bold>
       </Price>
       {store_price &&
-        Object.keys(store_price).map(item => (
-          <Price>
+        Object.keys(store_price).map((item, index) => (
+          <Price key={index}>
             <Store>{item} : </Store>
             <Bold>
               {store_price[item]
