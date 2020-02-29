@@ -18,8 +18,15 @@ const now = `${year}-${month.length === 1 ? "0" + month : month}-${
 }`;
 
 router.get("/kmug_items", (req, res) => {
+  const LIMIT = 10;
+  let {
+    query: { page }
+  } = req;
+  page = parseInt(page);
+
+  const offset = LIMIT * (page - 1);
   connection.query(
-    `select * from kmugstore_data where date(crawlingTime) = '${now}' group by keyword`,
+    `select * from kmugstore_data where date(crawlingTime) = '2020-02-28' group by keyword LIMIT ${offset}, 10`,
     (err, rows) => {
       if (!err && rows.length !== 0) {
         res.json(rows);

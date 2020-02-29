@@ -1,5 +1,6 @@
 import React from "react";
 import HomePresenter from "./HomePresenter";
+import queryString from "query-string";
 import { shopApi } from "../../api";
 
 export default class extends React.Component {
@@ -11,7 +12,19 @@ export default class extends React.Component {
   };
   async componentDidMount() {
     try {
-      const { data } = await shopApi.kmugItems();
+      const {
+        history: {
+          location: { search }
+        }
+      } = this.props;
+      const value = queryString.parse(search);
+      let page = value.page;
+
+      if (!page) {
+        page = 1;
+      }
+
+      const { data } = await shopApi.kmugItems(page);
       const { data: priceData } = await shopApi.itemPrice();
       let priceDataArr = [];
       let items = priceData.map(items => items);
