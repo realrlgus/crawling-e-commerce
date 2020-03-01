@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import Loader from "../../Components/Loader";
 import Section from "../../Components/Section";
 import Poster from "../../Components/Poster";
+import Pagination from "../../Components/Pagination";
 
 const Container = styled.div``;
 const Item = styled.div``;
@@ -27,6 +28,7 @@ const HomePresenter = ({ items, priceData, loading }) =>
           ))}
         </Section>
       )}
+      <Pagination />
     </Container>
   );
 

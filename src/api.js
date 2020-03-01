@@ -6,5 +6,6 @@ export const shopApi = {
   kmugItems: page => axios.get(`/kmug_items?page=${page}`),
   itemPrice: () => axios.get("/items_price"),
   itemPriceByKeyword: keyword => axios.get(`/items_price/${keyword}`),
-  chartDataByKeyword: keyword => axios.get(`/chart_data/${keyword}`)
+  chartDataByKeyword: keyword => axios.get(`/chart_data/${keyword}`),
+  search: text => axios.get(`/search_kmug_items/${text}`)
 };

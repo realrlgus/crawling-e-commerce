@@ -26,7 +26,7 @@ router.get("/kmug_items", (req, res) => {
 
   const offset = LIMIT * (page - 1);
   connection.query(
-    `select * from kmugstore_data where date(crawlingTime) = '2020-02-28' group by keyword LIMIT ${offset}, 10`,
+    `select * from kmugstore_data where date(crawlingTime) = '2020-03-01' group by keyword LIMIT ${offset}, 10`,
     (err, rows) => {
       if (!err && rows.length !== 0) {
         res.json(rows);
@@ -45,6 +45,23 @@ router.get("/kmug_items/:id", (req, res) => {
 
   connection.query(
     `select * from kmugstore_data where idx = '${id}'`,
+    (err, rows) => {
+      if (!err && rows.length !== 0) {
+        res.json(rows);
+      } else {
+        res.json({ error: "can't find data!" });
+      }
+    }
+  );
+});
+
+router.get("/search_kmug_items/:text", (req, res) => {
+  let {
+    params: { text }
+  } = req;
+
+  connection.query(
+    `select * from kmugstore_data where date(crawlingTime) = '2020-03-01' and productName like '%${text}%'`,
     (err, rows) => {
       if (!err && rows.length !== 0) {
         res.json(rows);
