@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import {
-  BarChart,
+  LineChart,
   CartesianGrid,
   XAxis,
   YAxis,
@@ -9,7 +9,7 @@ import {
   Legend,
   Label,
   ResponsiveContainer,
-  Bar
+  Line
 } from "recharts";
 
 const SResponsiveContainer = styled(ResponsiveContainer)`
@@ -18,22 +18,31 @@ const SResponsiveContainer = styled(ResponsiveContainer)`
 
 const Chart = ({ width, height, data }) => (
   <SResponsiveContainer width="80%" height={300}>
-    <BarChart width={width} height={height} data={data}>
-      <CartesianGrid strokeDasharray="3 3" />
+    <LineChart width={width} height={height} data={data}>
+      <CartesianGrid strokeDasharray="2 2" />
       <XAxis dataKey="crawlingTime" />
       <YAxis />
       <Tooltip />
       <Legend />
-      <Bar dataKey="price" fill="#88a84d">
-        <Label dataKey="crawlingSite"></Label>
-      </Bar>
-
-      {/* {data.map(item =>
-        item.priceObj.map((obj, idx) => (
-          <Bar key={idx} dataKey={obj.price} fill="#88a84d" />
-        ))
-      )} */}
-    </BarChart>
+      <Line
+        type="monotone"
+        dataKey="11번가"
+        stroke="#ff7675"
+        dot={{ stroke: "#ff7675", strokeWidth: 2 }}
+      />
+      <Line
+        type="monotone"
+        dataKey="옥션"
+        stroke="#6c5ce7"
+        dot={{ stroke: "#6c5ce7", strokeWidth: 2 }}
+      />
+      <Line
+        type="monotone"
+        dataKey="위메프"
+        stroke="#636e72"
+        dot={{ stroke: "#636e72", strokeWidth: 2 }}
+      />
+    </LineChart>
   </SResponsiveContainer>
 );
 

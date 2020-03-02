@@ -8,7 +8,14 @@ import Pagination from "../../Components/Pagination";
 
 const Container = styled.div``;
 const Item = styled.div``;
-const HomePresenter = ({ items, priceData, loading }) =>
+const HomePresenter = ({
+  items,
+  priceData,
+  loading,
+  pagination,
+  pages,
+  page
+}) =>
   loading ? (
     <Loader />
   ) : (
@@ -28,7 +35,7 @@ const HomePresenter = ({ items, priceData, loading }) =>
           ))}
         </Section>
       )}
-      <Pagination />
+      <Pagination pagination={pagination} pages={pages} page={page} />
     </Container>
   );
 

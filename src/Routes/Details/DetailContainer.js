@@ -30,24 +30,28 @@ export default class extends React.Component {
       const { data: chartData } = await shopApi.chartDataByKeyword(
         keyword.replace("/", "%2F")
       );
+      let chartArr = [];
+      chartData.forEach((item, index) => {
+        let site = item.crawlingSite;
+        if (index === 0) {
+          chartArr.push({ crawlingTime: item.crawlingTime });
+          chartArr[index][site] = item.price;
+        } else if (index !== 0) {
+          const beforeCrawlingTime = chartArr[chartArr.length - 1].crawlingTime;
+          if (beforeCrawlingTime !== item.crawlingTime) {
+            chartArr.push({ crawlingTime: item.crawlingTime });
+          }
+          chartArr[chartArr.length - 1][site] = item.price;
+        }
 
-      let priceDataArr = [];
+        console.log(chartArr);
+        return 0;
+      });
 
-      console.log(priceData);
-      // let items = priceData.map(items => items);
-      // for (const item in items) {
-      //   let keyword = Object.keys(items[item])[0];
-      //   let store = Object.keys(Object.values(items[item])[0])[0];
-      //   let price = Object.values(Object.values(items[item])[0])[0];
-      //   if (typeof priceDataArr[keyword] === "undefined") {
-      //     priceDataArr[keyword] = {};
-      //   }
-      //   priceDataArr[keyword][store] = price;
-      // }
       this.setState({
         item: data,
         priceData: priceData,
-        chartData: chartData
+        chartData: chartArr
       });
     } catch (error) {
       this.setState({ error: "오류 발생" });

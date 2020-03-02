@@ -12,28 +12,24 @@ const Item = styled.li`
 `;
 
 const SLink = styled(Link)`
-  color: black;
   font-size: 20pt;
   border: 1px solid #74b9ff;
-  padding: 10px;
-  color: black;
+  padding: 10px 20px;
+  margin-left: 10px;
+  color: ${props => (props.page ? "#ffffff" : "#74b9ff")};
+  background-color: ${props => (props.page ? "#74b9ff" : "#fffffff")};
 `;
 
-const Pagination = ({ count }) => (
+const Pagination = ({ pagination, pages, page }) => (
   <List>
     <Item>
-      <SLink to="/?page=2">132</SLink>
-    </Item>
-    <Item>
-      <SLink to="/?page=2">132</SLink>
-    </Item>
-    <Item>
-      <SLink to="/?page=3">132</SLink>
-    </Item>
-    <Item>
-      <SLink to="/?page=4">132</SLink>
+      {pages &&
+        pages.map(item => (
+          <SLink onClick={() => pagination(item)} page={page === item}>
+            {item}
+          </SLink>
+        ))}
     </Item>
   </List>
 );
-
 export default Pagination;

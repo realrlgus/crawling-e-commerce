@@ -2,28 +2,22 @@ import React from "react";
 import HomePresenter from "./HomePresenter";
 import queryString from "query-string";
 import { shopApi } from "../../api";
+import Pagination from "../../Components/Pagination";
 
 export default class extends React.Component {
   state = {
     items: null,
     priceData: null,
+    pages: null,
+    page: null,
     loading: true,
     error: null
   };
-  async componentDidMount() {
+  renderItems = async page => {
+    this.setState({
+      loading: true
+    });
     try {
-      const {
-        history: {
-          location: { search }
-        }
-      } = this.props;
-      const value = queryString.parse(search);
-      let page = value.page;
-
-      if (!page) {
-        page = 1;
-      }
-
       const { data } = await shopApi.kmugItems(page);
       const { data: priceData } = await shopApi.itemPrice();
       let priceDataArr = [];
@@ -38,8 +32,11 @@ export default class extends React.Component {
         priceDataArr[keyword][store] = price;
       }
 
+      const pages = [1, 2, 3, 4, 5, 6, 7, 8];
       this.setState({
         items: data,
+        pages: pages,
+        page: page,
         priceData: priceDataArr
       });
     } catch (error) {
@@ -47,11 +44,21 @@ export default class extends React.Component {
     } finally {
       this.setState({ loading: false });
     }
+  };
+  componentDidMount() {
+    this.renderItems(1);
   }
   render() {
-    const { items, priceData, loading } = this.state;
+    const { items, priceData, loading, pages, page } = this.state;
     return (
-      <HomePresenter items={items} loading={loading} priceData={priceData} />
+      <HomePresenter
+        items={items}
+        loading={loading}
+        priceData={priceData}
+        pagination={this.renderItems}
+        pages={pages}
+        page={page}
+      />
     );
   }
 }

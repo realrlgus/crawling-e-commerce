@@ -115,7 +115,7 @@ router.get("/items_price/:keyword", (req, res) => {
   keyword = keyword.replace("%2F", "/");
 
   connection.query(
-    `select min(price) as price , crawlingSite, productUrl,  keyword from ecommerce_data  where keyword = '${keyword}' group by crawlingSite`,
+    `select min(price) as price , crawlingSite, productUrl,  keyword from ecommerce_data  where keyword = '${keyword}' and date(crawlingTime) = '2020-03-01' group by crawlingSite`,
     (err, rows) => {
       if (!err) {
         let arr = [];
