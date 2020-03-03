@@ -3,6 +3,9 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import Loader from "../../Components/Loader";
 import Section from "../../Components/Section";
+import List from "../../Components/List";
+import ListSection from "../../Components/ListSection";
+import ViewType from "../../Components/ViewType";
 import Poster from "../../Components/Poster";
 import Pagination from "../../Components/Pagination";
 
@@ -14,13 +17,16 @@ const HomePresenter = ({
   loading,
   pagination,
   pages,
-  page
+  page,
+  type,
+  setType
 }) =>
   loading ? (
     <Loader />
   ) : (
     <Container>
-      {items && items.length > 0 && (
+      <ViewType setType={setType} />
+      {items && items.length > 0 && type === "Image" && (
         <Section>
           {items.map(item => (
             <Poster
@@ -34,6 +40,21 @@ const HomePresenter = ({
             />
           ))}
         </Section>
+      )}
+      {items && items.length > 0 && type === "List" && (
+        <ListSection>
+          {items.map(item => (
+            <List
+              key={item.idx}
+              id={item.idx}
+              title={item.productName}
+              bgUrl={item.imgUrl}
+              price={item.price}
+              keyword={item.keyword}
+              store_price={priceData[item.keyword]}
+            />
+          ))}
+        </ListSection>
       )}
       <Pagination pagination={pagination} pages={pages} page={page} />
     </Container>

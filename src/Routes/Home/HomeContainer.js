@@ -10,6 +10,7 @@ export default class extends React.Component {
     priceData: null,
     pages: null,
     page: null,
+    type: null,
     loading: true,
     error: null
   };
@@ -45,11 +46,23 @@ export default class extends React.Component {
       this.setState({ loading: false });
     }
   };
+  setType = type => {
+    try {
+      this.setState({
+        type: type
+      });
+    } catch (error) {
+      this.setState({ error: "No datas" });
+    } finally {
+      this.setState({ loading: false });
+    }
+  };
   componentDidMount() {
     this.renderItems(1);
+    this.setType("Image");
   }
   render() {
-    const { items, priceData, loading, pages, page } = this.state;
+    const { items, priceData, loading, pages, page, type } = this.state;
     return (
       <HomePresenter
         items={items}
@@ -58,6 +71,8 @@ export default class extends React.Component {
         pagination={this.renderItems}
         pages={pages}
         page={page}
+        setType={this.setType}
+        type={type}
       />
     );
   }

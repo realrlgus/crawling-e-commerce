@@ -3,6 +3,9 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import Loader from "../../Components/Loader";
 import Section from "../../Components/Section";
+import List from "../../Components/List";
+import ListSection from "../../Components/ListSection";
+import ViewType from "../../Components/ViewType";
 import Poster from "../../Components/Poster";
 import Pagination from "../../Components/Pagination";
 import Message from "../../Components/Message";
@@ -29,10 +32,11 @@ const HomePresenter = ({
   items,
   priceData,
   error,
-  loading
+  loading,
+  type,
+  setType
 }) => (
   <Container>
-    {console.log(error)}
     <Form onSubmit={handleSubmit}>
       <Input
         placeholder="제품명을 검색하세요."
@@ -44,21 +48,39 @@ const HomePresenter = ({
       <Loader />
     ) : (
       <>
-        {items && items.length > 0 && (
-          <Section>
+        {items && items.length > 0 && type === "Image" && (
+          <>
+            <ViewType setType={setType} />
+            <Section>
+              {items.map(item => (
+                <Poster
+                  key={item.idx}
+                  id={item.idx}
+                  title={item.productName}
+                  bgUrl={item.imgUrl}
+                  price={item.price}
+                  keyword={item.keyword}
+                  store_price={priceData[item.keyword]}
+                />
+              ))}
+            </Section>
+          </>
+        )}
+        {items && items.length > 0 && type === "List" && (
+          <ListSection>
+            <ViewType setType={setType} />
             {items.map(item => (
-              <Poster
+              <List
                 key={item.idx}
                 id={item.idx}
                 title={item.productName}
                 bgUrl={item.imgUrl}
                 price={item.price}
                 keyword={item.keyword}
-                test={console.log(priceData[item.keyword])}
                 store_price={priceData[item.keyword]}
               />
             ))}
-          </Section>
+          </ListSection>
         )}
         {error && !items && <Message color="#000000" text={error}></Message>}
       </>

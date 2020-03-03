@@ -26,7 +26,7 @@ router.get("/kmug_items", (req, res) => {
 
   const offset = LIMIT * (page - 1);
   connection.query(
-    `select * from kmugstore_data where date(crawlingTime) = '2020-03-01' group by keyword LIMIT ${offset}, 10`,
+    `select * from kmugstore_data where date(crawlingTime) = '2020-03-03' group by keyword LIMIT ${offset}, 10`,
     (err, rows) => {
       if (!err && rows.length !== 0) {
         res.json(rows);
@@ -61,7 +61,7 @@ router.get("/search_kmug_items/:text", (req, res) => {
   } = req;
 
   connection.query(
-    `select * from kmugstore_data where date(crawlingTime) = '2020-03-01' and productName like '%${text}%'`,
+    `select * from kmugstore_data where date(crawlingTime) = '2020-03-03' and productName like '%${text}%'`,
     (err, rows) => {
       if (!err && rows.length !== 0) {
         res.json(rows);
@@ -115,11 +115,10 @@ router.get("/items_price/:keyword", (req, res) => {
   keyword = keyword.replace("%2F", "/");
 
   connection.query(
-    `select min(price) as price , crawlingSite, productUrl,  keyword from ecommerce_data  where keyword = '${keyword}' and date(crawlingTime) = '2020-03-01' group by crawlingSite`,
+    `select min(price) as price , crawlingSite, productUrl,  keyword from ecommerce_data  where keyword = '${keyword}' and date(crawlingTime) = '2020-03-03' group by crawlingSite`,
     (err, rows) => {
       if (!err) {
         let arr = [];
-        console.log(rows);
         for (const idx in rows) {
           const price = rows[idx]["price"];
           const crawlingSite = rows[idx]["crawlingSite"];
@@ -157,7 +156,7 @@ router.get("/items/:id", (req, res) => {
 
 router.get("/keyword", (req, res) => {
   connection.query(
-    "select distinct keyword from kmugstore_data order by idx asc",
+    "select distinct keyword from kmugstore_data order by idx desc",
     (err, rows) => {
       if (!err) {
         res.json(rows);

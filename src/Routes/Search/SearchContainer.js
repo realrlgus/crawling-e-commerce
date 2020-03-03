@@ -9,6 +9,7 @@ export default class extends React.Component {
     priceData: null,
     searchTerm: "",
     error: null,
+    type: "Image",
     loading: false
   };
 
@@ -27,16 +28,26 @@ export default class extends React.Component {
     this.setState({ searchTerm: value });
   };
 
+  setType = type => {
+    try {
+      this.setState({
+        type: type
+      });
+    } catch (error) {
+      this.setState({ error: "No datas" });
+    } finally {
+      this.setState({ loading: false });
+    }
+  };
+
   searchByTerm = async () => {
-    const { searchTerm } = this.state;
+    const { searchTerm, type } = this.state;
     this.setState({ loading: true });
     try {
       const { data } = await shopApi.search(searchTerm);
-
       if (data.error) {
         throw Error;
       }
-
       const { data: priceData } = await shopApi.itemPrice();
       let priceDataArr = [];
       let items = priceData.map(items => items);
@@ -51,10 +62,11 @@ export default class extends React.Component {
       }
       this.setState({
         items: data,
-        priceData: priceDataArr
+        priceData: priceDataArr,
+        type
       });
     } catch {
-      this.setState({ error: "결과없음" });
+      this.setState({ error: "결과없음", items: null });
     } finally {
       this.setState({ loading: false });
     }
@@ -68,7 +80,8 @@ export default class extends React.Component {
       error,
       loading,
       items,
-      priceData
+      priceData,
+      type
     } = this.state;
     return (
       <SearchPresenter
@@ -77,6 +90,8 @@ export default class extends React.Component {
         error={error}
         loading={loading}
         items={items}
+        type={type}
+        setType={this.setType}
         priceData={priceData}
         handleSubmit={this.handleSubmit}
         updateTerm={this.updateTerm}

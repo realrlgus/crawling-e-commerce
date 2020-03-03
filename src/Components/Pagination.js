@@ -11,7 +11,7 @@ const Item = styled.li`
   display: inline;
 `;
 
-const SLink = styled(Link)`
+const SLink = styled.a`
   font-size: 20pt;
   border: 1px solid #74b9ff;
   padding: 10px 20px;
@@ -24,8 +24,12 @@ const Pagination = ({ pagination, pages, page }) => (
   <List>
     <Item>
       {pages &&
-        pages.map(item => (
-          <SLink onClick={() => pagination(item)} page={page === item}>
+        pages.map((item, index) => (
+          <SLink
+            key={index}
+            onClick={() => pagination(item)}
+            page={page === item}
+          >
             {item}
           </SLink>
         ))}
