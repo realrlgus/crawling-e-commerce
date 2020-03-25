@@ -101,12 +101,29 @@ const Link = styled.a`
 
 const ChartTitle = styled.p`
   width: 80%;
+
   margin: 0 auto;
   font-size: 22pt;
   padding: 20px;
 `;
 
-const DetailPresenter = ({ item, priceData, chartData, loading, error }) =>
+const Sale = styled.div`
+  display: inline-block;
+  min-width: 95px;
+  width: 95px;
+  max-width: 95px;
+  padding-left: 5px;
+  color: ${props => props.color};
+`;
+
+const DetailPresenter = ({
+  item,
+  priceData,
+  chartData,
+  loading,
+  salerData,
+  error
+}) =>
   loading ? (
     <Loader />
   ) : (
@@ -128,7 +145,7 @@ const DetailPresenter = ({ item, priceData, chartData, loading, error }) =>
               </Price>
             </ProductPrice>
           )}
-
+          {console.log(item)}
           {priceData.map(store =>
             Object.keys(store).map((col, idx) => (
               <ProductPrice key={idx}>
@@ -139,6 +156,27 @@ const DetailPresenter = ({ item, priceData, chartData, loading, error }) =>
                     .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                   원
                 </Price>
+                {((store[col]["price"] / item[0].price) * 100).toFixed(2) <
+                  100 && (
+                  <Sale color="#d63031">
+                    {((store[col]["price"] / item[0].price) * 100).toFixed(2)}%
+                  </Sale>
+                )}
+
+                {((store[col]["price"] / item[0].price) * 100).toFixed(2) >=
+                  100 && (
+                  <Sale color="#00cec9">
+                    {((store[col]["price"] / item[0].price) * 100).toFixed(2)}%
+                  </Sale>
+                )}
+                <Sale color="#a29bfe">
+                  {(
+                    (1 - store[col]["price"] / item[0].default_price) *
+                    100
+                  ).toFixed(2)}
+                  %
+                </Sale>
+
                 <Link href={store[col]["productUrl"]} target="_blank">
                   바로가기
                 </Link>
@@ -148,7 +186,7 @@ const DetailPresenter = ({ item, priceData, chartData, loading, error }) =>
         </ProductDetail>
       </Product>
       <ChartTitle>쇼핑몰 일자별 판매 금액</ChartTitle>
-      <Chart width={700} height={300} data={chartData} />
+      <Chart width={700} height={300} data={chartData} salerData={salerData} />
     </Container>
   );
 export default DetailPresenter;

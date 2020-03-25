@@ -16,7 +16,17 @@ const SResponsiveContainer = styled(ResponsiveContainer)`
   margin: 0 auto;
 `;
 
-const Chart = ({ width, height, data }) => (
+const color = [
+  "#55efc4",
+  "#00cec9",
+  "#74b9ff",
+  "#a29bfe",
+  "#fab1a0",
+  "#ff7675",
+  "#fd79a8"
+];
+
+const Chart = ({ width, height, data, salerData }) => (
   <SResponsiveContainer width="80%" height={300}>
     <LineChart width={width} height={height} data={data}>
       <CartesianGrid strokeDasharray="2 2" />
@@ -24,24 +34,16 @@ const Chart = ({ width, height, data }) => (
       <YAxis />
       <Tooltip />
       <Legend />
-      <Line
-        type="monotone"
-        dataKey="11번가"
-        stroke="#ff7675"
-        dot={{ stroke: "#ff7675", strokeWidth: 2 }}
-      />
-      <Line
-        type="monotone"
-        dataKey="옥션"
-        stroke="#6c5ce7"
-        dot={{ stroke: "#6c5ce7", strokeWidth: 2 }}
-      />
-      <Line
-        type="monotone"
-        dataKey="위메프"
-        stroke="#636e72"
-        dot={{ stroke: "#636e72", strokeWidth: 2 }}
-      />
+      {salerData.length > 0 &&
+        salerData.map((item, index) => (
+          <Line
+            type="monotone"
+            dataKey={item["crawlingSite"]}
+            key={index}
+            stroke={color[index]}
+            dot={{ stroke: color[index], strokeWidth: 2 }}
+          />
+        ))}
     </LineChart>
   </SResponsiveContainer>
 );

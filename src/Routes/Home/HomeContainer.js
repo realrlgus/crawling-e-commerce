@@ -32,8 +32,8 @@ export default class extends React.Component {
         }
         priceDataArr[keyword][store] = price;
       }
-
       const pages = [1, 2, 3, 4, 5, 6, 7, 8];
+      console.log(data);
       this.setState({
         items: data,
         pages: pages,

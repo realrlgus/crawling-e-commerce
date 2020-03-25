@@ -39,7 +39,7 @@ const HomePresenter = ({
   <Container>
     <Form onSubmit={handleSubmit}>
       <Input
-        placeholder="제품명을 검색하세요."
+        placeholder="제품명 혹은 파트번호를 입력하세요."
         value={searchTerm}
         onChange={updateTerm}
       />

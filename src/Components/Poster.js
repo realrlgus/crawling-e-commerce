@@ -39,29 +39,49 @@ const Price = styled.div`
 `;
 
 const Store = styled.div`
-  width: 80px;
-  min-width: 80px;
-  max-width: 80px;
+  width: 110px;
+  min-width: 110px;
+  max-width: 110px;
   display: inline-block;
 `;
 
 const Bold = styled.span`
   font-weight: 700;
 `;
+const Sale = styled.div`
+  display: inline-block;
+  padding-left: 5px;
+  color: ${props => props.color};
+`;
 
 const SLink = styled(Link)`
   display: block;
 `;
 
-const Poster = ({ id, bgUrl, title, price, keyword, store_price }) => (
+const Poster = ({
+  id,
+  bgUrl,
+  title,
+  price,
+  keyword,
+  store_price,
+  defaultprice
+}) => (
   <Link to={`/items/${id}`}>
     <Container>
       <Image bgUrl={bgUrl}></Image>
       <Title>{title}</Title>
       <Keyword>{keyword}</Keyword>
       <Price>
+        <Store>정가 : </Store>
+        <Bold>
+          {defaultprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원
+        </Bold>
+      </Price>
+      <Price>
         <Store>KMUG : </Store>
         <Bold>{price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원</Bold>
+        <Sale>100%</Sale>
       </Price>
       {store_price &&
         Object.keys(store_price).map((item, index) => (
@@ -73,6 +93,17 @@ const Poster = ({ id, bgUrl, title, price, keyword, store_price }) => (
                 .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
               원
             </Bold>
+            {((store_price[item] / price) * 100).toFixed(2) < 100 && (
+              <Sale color="#d63031">
+                {((store_price[item] / price) * 100).toFixed(2)}%
+              </Sale>
+            )}
+
+            {((store_price[item] / price) * 100).toFixed(2) >= 100 && (
+              <Sale color="#00cec9">
+                {((store_price[item] / price) * 100).toFixed(2)}%
+              </Sale>
+            )}
           </Price>
         ))}
     </Container>

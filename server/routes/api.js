@@ -26,7 +26,7 @@ router.get("/kmug_items", (req, res) => {
 
   const offset = LIMIT * (page - 1);
   connection.query(
-    `select * from kmugstore_data where date(crawlingTime) = '2020-03-03' group by keyword LIMIT ${offset}, 10`,
+    `select * from kmugstore_data where date(crawlingTime) = '${now}' group by keyword LIMIT ${offset}, 10`,
     (err, rows) => {
       if (!err && rows.length !== 0) {
         res.json(rows);
@@ -61,7 +61,7 @@ router.get("/search_kmug_items/:text", (req, res) => {
   } = req;
 
   connection.query(
-    `select * from kmugstore_data where date(crawlingTime) = '2020-03-03' and productName like '%${text}%'`,
+    `select * from kmugstore_data where date(crawlingTime) = '${now}' and productName like '%${text}%'`,
     (err, rows) => {
       if (!err && rows.length !== 0) {
         res.json(rows);
@@ -74,7 +74,7 @@ router.get("/search_kmug_items/:text", (req, res) => {
 
 router.get("/items", (req, res) => {
   connection.query(
-    `SELECT * FROM ecommerce_data where date(crawlingTime) = '${now}'`,
+    `SELECT * FROM crawling_data where date(crawlingTime) = '${now}'`,
     (err, rows) => {
       if (!err) {
         res.json(rows);
@@ -87,7 +87,7 @@ router.get("/items", (req, res) => {
 
 router.get("/items_price", (req, res) => {
   connection.query(
-    `select min(price) as price , crawlingSite, keyword from ecommerce_data  group by keyword, crawlingSite`,
+    `select min(price) as price , crawlingSite, keyword from crawling_data where not crawlingSite = 'KMUG스토어'  group by keyword, crawlingSite`,
     (err, rows) => {
       if (!err) {
         let arr = [];
@@ -115,7 +115,7 @@ router.get("/items_price/:keyword", (req, res) => {
   keyword = keyword.replace("%2F", "/");
 
   connection.query(
-    `select min(price) as price , crawlingSite, productUrl,  keyword from ecommerce_data  where keyword = '${keyword}' and date(crawlingTime) = '2020-03-03' group by crawlingSite`,
+    `select min(price) as price , crawlingSite, productUrl,  keyword from crawling_data  where keyword = '${keyword}' and date(crawlingTime) = '${now}' and not crawlingSite = 'KMUG스토어' group by crawlingSite`,
     (err, rows) => {
       if (!err) {
         let arr = [];
@@ -143,7 +143,7 @@ router.get("/items/:id", (req, res) => {
   } = req;
   id = parseInt(id);
   connection.query(
-    `SELECT * FROM ecommerce_data where idx = ${id}`,
+    `SELECT * FROM crawling_data where idx = ${id}`,
     (err, rows) => {
       if (!err) {
         res.json(rows);
@@ -173,7 +173,7 @@ router.get("/chart_data/:keyword", (req, res) => {
   } = req;
   keyword = keyword.replace("%2F", "/");
   connection.query(
-    `select min(price) + fee as price, crawlingSite , date_format(crawlingTime, "%Y-%m-%d") as crawlingTime from ecommerce_data where keyword = '${keyword}' group by keyword , crawlingSite,  date_format(crawlingTime, '%Y-%m-%d')`,
+    `select min(price) + fee as price, crawlingSite , date_format(crawlingTime, "%Y-%m-%d") as crawlingTime from crawling_data where keyword = '${keyword}' and not crawlingSite = 'KMUG스토어' group by keyword , crawlingSite,  date_format(crawlingTime, '%Y-%m-%d')`,
     (err, rows) => {
       if (!err && rows.length !== 0) {
         res.json(rows);
@@ -200,7 +200,7 @@ router.post("/items", (req, res) => {
     }
   } = req;
   connection.query(
-    `INSERT INTO ecommerce_data 
+    `INSERT INTO crawling_data 
       (productName , keyword, price, fee , productUrl, crawlingTime, crawlingSite, saler) 
         VALUES (
           '${productName}',

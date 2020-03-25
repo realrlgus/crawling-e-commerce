@@ -22,7 +22,7 @@ export default class extends React.Component {
 
       const { data } = await shopApi.kmugItemById(id);
       const {
-        0: { keyword }
+        0: { keyword, price }
       } = data;
       const { data: priceData } = await shopApi.itemPriceByKeyword(
         keyword.replace("/", "%2F")
@@ -44,14 +44,17 @@ export default class extends React.Component {
           chartArr[chartArr.length - 1][site] = item.price;
         }
 
-        console.log(chartArr);
         return 0;
       });
-
+      let crawlingSite = "KMUG";
+      let crawlingTime = chartData[0].crawlingTime;
+      chartData.unshift({ price, crawlingSite, crawlingTime });
+      chartArr[0]["KMUG"] = price;
       this.setState({
         item: data,
         priceData: priceData,
-        chartData: chartArr
+        chartData: chartArr,
+        salerData: chartData
       });
     } catch (error) {
       this.setState({ error: "오류 발생" });
@@ -60,12 +63,20 @@ export default class extends React.Component {
     }
   }
   render() {
-    const { item, priceData, chartData, loading, error } = this.state;
+    const {
+      item,
+      priceData,
+      chartData,
+      salerData,
+      loading,
+      error
+    } = this.state;
     return (
       <DetailPresenter
         item={item}
         priceData={priceData}
         chartData={chartData}
+        salerData={salerData}
         loading={loading}
         error={error}
       />
