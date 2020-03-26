@@ -26,6 +26,8 @@ const color = [
   "#fd79a8"
 ];
 
+const date = "";
+
 const Chart = ({ width, height, data, salerData }) => (
   <SResponsiveContainer width="80%" height={300}>
     <LineChart width={width} height={height} data={data}>
@@ -38,7 +40,7 @@ const Chart = ({ width, height, data, salerData }) => (
         salerData.map((item, index) => (
           <Line
             type="monotone"
-            dataKey={item["crawlingSite"]}
+            dataKey={item}
             key={index}
             stroke={color[index]}
             dot={{ stroke: color[index], strokeWidth: 2 }}

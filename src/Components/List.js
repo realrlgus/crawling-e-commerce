@@ -60,6 +60,11 @@ const Store = styled.div`
 const Bold = styled.span`
   font-weight: 700;
 `;
+const Sale = styled.div`
+  display: inline-block;
+  padding-left: 5px;
+  color: ${props => props.color};
+`;
 
 const SLink = styled(Link)`
   :not(:last-child) {
@@ -93,6 +98,17 @@ const Poster = ({ id, bgUrl, title, price, keyword, store_price }) => (
                   .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                 원
               </Bold>
+              {((store_price[item] / price) * 100).toFixed(2) < 100 && (
+                <Sale color="#d63031">
+                  {((store_price[item] / price) * 100).toFixed(2)}%
+                </Sale>
+              )}
+
+              {((store_price[item] / price) * 100).toFixed(2) >= 100 && (
+                <Sale color="#00cec9">
+                  {((store_price[item] / price) * 100).toFixed(2)}%
+                </Sale>
+              )}
             </Price>
           ))}
       </PriceColumn>

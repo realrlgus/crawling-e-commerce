@@ -27,36 +27,49 @@ export default class extends React.Component {
       const { data: priceData } = await shopApi.itemPriceByKeyword(
         keyword.replace("/", "%2F")
       );
-      const { data: chartData } = await shopApi.chartDataByKeyword(
+      let { data: chartData } = await shopApi.chartDataByKeyword(
         keyword.replace("/", "%2F")
       );
       let chartArr = [];
-      chartData.forEach((item, index) => {
-        let site = item.crawlingSite;
-        if (index === 0) {
-          chartArr.push({ crawlingTime: item.crawlingTime });
-          chartArr[index][site] = item.price;
-        } else if (index !== 0) {
-          const beforeCrawlingTime = chartArr[chartArr.length - 1].crawlingTime;
-          if (beforeCrawlingTime !== item.crawlingTime) {
+      let storeArr = [];
+      if (chartData.error) {
+        chartData = [];
+      } else {
+        chartData.forEach((item, index) => {
+          let site = item.crawlingSite;
+          if (index === 0) {
             chartArr.push({ crawlingTime: item.crawlingTime });
+            chartArr[index][site] = item.price;
+          } else if (index !== 0) {
+            const beforeCrawlingTime =
+              chartArr[chartArr.length - 1].crawlingTime;
+            if (beforeCrawlingTime !== item.crawlingTime) {
+              chartArr.push({ crawlingTime: item.crawlingTime });
+            }
+            chartArr[chartArr.length - 1][site] = item.price;
           }
-          chartArr[chartArr.length - 1][site] = item.price;
-        }
+          if (!storeArr.includes(site)) {
+            storeArr.unshift(site);
+          }
+          return 0;
+        });
 
-        return 0;
-      });
-      let crawlingSite = "KMUG";
-      let crawlingTime = chartData[0].crawlingTime;
-      chartData.unshift({ price, crawlingSite, crawlingTime });
-      chartArr[0]["KMUG"] = price;
+        let crawlingSite = "KMUG";
+        let crawlingTime = chartData[0].crawlingTime;
+
+        chartData.unshift({ price, crawlingSite, crawlingTime });
+        storeArr.unshift(crawlingSite);
+        chartArr[0]["KMUG"] = price;
+      }
+      console.log(chartArr);
       this.setState({
         item: data,
         priceData: priceData,
         chartData: chartArr,
-        salerData: chartData
+        salerData: storeArr
       });
     } catch (error) {
+      console.log(error);
       this.setState({ error: "오류 발생" });
     } finally {
       this.setState({ loading: false });

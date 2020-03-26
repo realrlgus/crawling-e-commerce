@@ -57,7 +57,6 @@ const HomePresenter = ({
           ))}
         </ListSection>
       )}
-      <Pagination pagination={pagination} pages={pages} page={page} />
     </Container>
   );
 

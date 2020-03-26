@@ -58,6 +58,7 @@ const HomePresenter = ({
                   id={item.idx}
                   title={item.productName}
                   bgUrl={item.imgUrl}
+                  defaultprice={item.default_price}
                   price={item.price}
                   keyword={item.keyword}
                   store_price={priceData[item.keyword]}

@@ -18,15 +18,8 @@ const now = `${year}-${month.length === 1 ? "0" + month : month}-${
 }`;
 
 router.get("/kmug_items", (req, res) => {
-  const LIMIT = 10;
-  let {
-    query: { page }
-  } = req;
-  page = parseInt(page);
-
-  const offset = LIMIT * (page - 1);
   connection.query(
-    `select * from kmugstore_data where date(crawlingTime) = '${now}' group by keyword LIMIT ${offset}, 10`,
+    `select * from kmugstore_data where date(crawlingTime) = '${now}' group by keyword`,
     (err, rows) => {
       if (!err && rows.length !== 0) {
         res.json(rows);
@@ -87,7 +80,7 @@ router.get("/items", (req, res) => {
 
 router.get("/items_price", (req, res) => {
   connection.query(
-    `select min(price) as price , crawlingSite, keyword from crawling_data where not crawlingSite = 'KMUG스토어'  group by keyword, crawlingSite`,
+    `select min(price) as price , crawlingSite, keyword from crawling_data where not crawlingSite = 'KMUG스토어' and date(crawlingTime) = '${now}' group by keyword, crawlingSite`,
     (err, rows) => {
       if (!err) {
         let arr = [];

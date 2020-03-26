@@ -3,44 +3,6 @@ import styled from "styled-components";
 import Loader from "../../Components/Loader";
 import Chart from "../../Components/Chart";
 
-const data = [
-  {
-    crawlingTime: "2020-02-21",
-    priceObj: [
-      {
-        price: 500000,
-        crawlingSite: "11번가"
-      }
-    ]
-  },
-  {
-    crawlingTime: "2020-02-22",
-    priceObj: [
-      {
-        price: 500000,
-        crawlingSite: "11번가"
-      }
-    ]
-  },
-  {
-    crawlingTime: "2020-02-28",
-    priceObj: [
-      {
-        price: 500000,
-        crawlingSite: "11번가"
-      },
-      {
-        price: 519000,
-        crawlingSite: "옥션"
-      },
-      {
-        price: 530000,
-        crawlingSite: "위메프"
-      }
-    ]
-  }
-];
-
 const Container = styled.div``;
 
 const Product = styled.div`
@@ -82,9 +44,9 @@ const ProductPrice = styled.div`
 `;
 
 const Store = styled.p`
-  min-width: 80px;
-  max-width: 80px;
-  width: 80px;
+  min-width: 120px;
+  max-width: 120px;
+  width: 120px;
   display: inline-block;
 `;
 const Price = styled.p`
@@ -128,6 +90,7 @@ const DetailPresenter = ({
     <Loader />
   ) : (
     <Container>
+      {console.log(error)}
       <Product>
         <ProductImage bgUrl={item.length > 0 ? item[0].imgUrl : ""} />
         <ProductDetail>
@@ -145,7 +108,7 @@ const DetailPresenter = ({
               </Price>
             </ProductPrice>
           )}
-          {console.log(item)}
+
           {priceData.map(store =>
             Object.keys(store).map((col, idx) => (
               <ProductPrice key={idx}>
@@ -185,8 +148,17 @@ const DetailPresenter = ({
           )}
         </ProductDetail>
       </Product>
-      <ChartTitle>쇼핑몰 일자별 판매 금액</ChartTitle>
-      <Chart width={700} height={300} data={chartData} salerData={salerData} />
+      {priceData && priceData.length > 0 && (
+        <>
+          <ChartTitle>쇼핑몰 일자별 판매 금액</ChartTitle>
+          <Chart
+            width={700}
+            height={300}
+            data={chartData}
+            salerData={salerData}
+          />
+        </>
+      )}
     </Container>
   );
 export default DetailPresenter;

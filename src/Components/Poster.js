@@ -39,9 +39,9 @@ const Price = styled.div`
 `;
 
 const Store = styled.div`
-  width: 110px;
-  min-width: 110px;
-  max-width: 110px;
+  width: 130px;
+  min-width: 130px;
+  max-width: 130px;
   display: inline-block;
 `;
 
