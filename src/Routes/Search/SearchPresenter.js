@@ -22,6 +22,8 @@ const Form = styled.form`
 const Input = styled.input`
   all: unset;
   font-size: 28px;
+  border-bottom: 3px solid #b2bec3;
+
   width: 100%;
 `;
 
@@ -76,6 +78,7 @@ const HomePresenter = ({
                 id={item.idx}
                 title={item.productName}
                 bgUrl={item.imgUrl}
+                defaultprice={item.default_price}
                 price={item.price}
                 keyword={item.keyword}
                 store_price={priceData[item.keyword]}

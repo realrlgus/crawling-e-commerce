@@ -51,9 +51,9 @@ const Price = styled.div`
 `;
 
 const Store = styled.div`
-  width: 110px;
-  min-width: 110px;
-  max-width: 110px;
+  width: 130px;
+  min-width: 130px;
+  max-width: 130px;
   display: inline-block;
 `;
 
@@ -67,11 +67,24 @@ const Sale = styled.div`
 `;
 
 const SLink = styled(Link)`
+  border-bottom: 3px solid #b2bec3;
   :not(:last-child) {
     margin-bottom: 10px;
   }
 `;
-const Poster = ({ id, bgUrl, title, price, keyword, store_price }) => (
+const HR = styled.div`
+  margin: 2px 0px;
+  border-top: 1px solid #636e72;
+`;
+const Poster = ({
+  id,
+  bgUrl,
+  title,
+  price,
+  defaultprice,
+  keyword,
+  store_price
+}) => (
   <SLink to={`/items/${id}`}>
     <Container>
       <ImageColumn>
@@ -83,11 +96,18 @@ const Poster = ({ id, bgUrl, title, price, keyword, store_price }) => (
       </TitleColumn>
       <PriceColumn>
         <Price>
+          <Store>정가 : </Store>
+          <Bold>
+            {defaultprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원
+          </Bold>
+        </Price>
+        <Price>
           <Store>KMUG : </Store>
           <Bold>
             {price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원
           </Bold>
         </Price>
+
         {store_price &&
           Object.keys(store_price).map((item, index) => (
             <Price key={index}>
@@ -98,17 +118,9 @@ const Poster = ({ id, bgUrl, title, price, keyword, store_price }) => (
                   .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                 원
               </Bold>
-              {((store_price[item] / price) * 100).toFixed(2) < 100 && (
-                <Sale color="#d63031">
-                  {((store_price[item] / price) * 100).toFixed(2)}%
-                </Sale>
-              )}
-
-              {((store_price[item] / price) * 100).toFixed(2) >= 100 && (
-                <Sale color="#00cec9">
-                  {((store_price[item] / price) * 100).toFixed(2)}%
-                </Sale>
-              )}
+              <Sale color="#a29bfe">
+                {((1 - store_price[item] / defaultprice) * 100).toFixed(2)}%
+              </Sale>
             </Price>
           ))}
       </PriceColumn>

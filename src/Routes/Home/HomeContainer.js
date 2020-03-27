@@ -59,7 +59,7 @@ export default class extends React.Component {
   };
   componentDidMount() {
     this.renderItems(1);
-    this.setType("Image");
+    this.setType("List");
   }
   render() {
     const { items, priceData, loading, pages, page, type } = this.state;

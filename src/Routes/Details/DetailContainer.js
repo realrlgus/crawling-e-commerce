@@ -61,7 +61,6 @@ export default class extends React.Component {
         storeArr.unshift(crawlingSite);
         chartArr[0]["KMUG"] = price;
       }
-      console.log(chartArr);
       this.setState({
         item: data,
         priceData: priceData,
@@ -69,7 +68,6 @@ export default class extends React.Component {
         salerData: storeArr
       });
     } catch (error) {
-      console.log(error);
       this.setState({ error: "오류 발생" });
     } finally {
       this.setState({ loading: false });

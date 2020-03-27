@@ -9,7 +9,7 @@ export default class extends React.Component {
     priceData: null,
     searchTerm: "",
     error: null,
-    type: "Image",
+    type: "List",
     loading: false
   };
 

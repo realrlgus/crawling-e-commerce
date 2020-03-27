@@ -1,22 +1,30 @@
 import React from "react";
 import styled from "styled-components";
+import { IoIosListBox, IoIosImages } from "react-icons/io";
 
 const Container = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
 `;
 
-const Item = styled.span`
-  margin: 10px 10px 0px 10px;
-  font-size: 20pt;
+const ListBox = styled(IoIosListBox)`
+  margin: 0px 0px 0px 20px;
+  cursor: pointer;
+`;
+const ImageBox = styled(IoIosImages)`
+  margin: 0px 20px;
   cursor: pointer;
 `;
 
 const Section = ({ setType }) => (
   <Container>
-    <Item onClick={() => setType("Image")}>{"이미지로 보기"}</Item>
-    <Item onClick={() => setType("List")}>{"리스트로 보기"}</Item>
+    <ListBox onClick={() => setType("List")} size="50">
+      {"리스트로 보기"}
+    </ListBox>
+    <ImageBox onClick={() => setType("Image")} size="50">
+      {"이미지로 보기"}
+    </ImageBox>
   </Container>
 );
 export default Section;

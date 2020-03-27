@@ -93,17 +93,9 @@ const Poster = ({
                 .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
               원
             </Bold>
-            {((store_price[item] / price) * 100).toFixed(2) < 100 && (
-              <Sale color="#d63031">
-                {((store_price[item] / price) * 100).toFixed(2)}%
-              </Sale>
-            )}
-
-            {((store_price[item] / price) * 100).toFixed(2) >= 100 && (
-              <Sale color="#00cec9">
-                {((store_price[item] / price) * 100).toFixed(2)}%
-              </Sale>
-            )}
+            <Sale color="#a29bfe">
+              {((1 - store_price[item] / defaultprice) * 100).toFixed(2)}%
+            </Sale>
           </Price>
         ))}
     </Container>
