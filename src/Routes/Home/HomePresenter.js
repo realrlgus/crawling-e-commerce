@@ -7,9 +7,15 @@ import List from "../../Components/List";
 import ListSection from "../../Components/ListSection";
 import ViewType from "../../Components/ViewType";
 import Poster from "../../Components/Poster";
+import Filter from "../../Components/Filter";
 import Pagination from "../../Components/Pagination";
 
 const Container = styled.div``;
+const Header = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+`;
 const Item = styled.div``;
 const HomePresenter = ({
   items,
@@ -19,13 +25,21 @@ const HomePresenter = ({
   pages,
   page,
   type,
-  setType
+  category,
+  setType,
+  setFilter
 }) =>
   loading ? (
     <Loader />
   ) : (
     <Container>
-      <ViewType setType={setType} />
+      {items && items.length > 0 && (
+        <Header>
+          <Filter setFilter={setFilter} category={category} />
+          <ViewType setType={setType} />
+        </Header>
+      )}
+
       {items && items.length > 0 && type === "Image" && (
         <Section>
           {items.map(item => (

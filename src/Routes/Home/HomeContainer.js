@@ -11,6 +11,8 @@ export default class extends React.Component {
     pages: null,
     page: null,
     type: null,
+    filter: null,
+    category: null,
     loading: true,
     error: null
   };
@@ -19,8 +21,10 @@ export default class extends React.Component {
       loading: true
     });
     try {
-      const { data } = await shopApi.kmugItems(page);
-      const { data: priceData } = await shopApi.itemPrice();
+      const filter = this.state.filter;
+      const { data } = await shopApi.kmugItems(filter);
+      const { data: priceData } = await shopApi.itemPrice(filter);
+      const { data: category } = await shopApi.getCategory();
       let priceDataArr = [];
       let items = priceData.map(items => items);
       for (const item in items) {
@@ -33,11 +37,11 @@ export default class extends React.Component {
         priceDataArr[keyword][store] = price;
       }
       const pages = [1, 2, 3, 4, 5, 6, 7, 8];
-      console.log(data);
       this.setState({
         items: data,
         pages: pages,
         page: page,
+        category: category,
         priceData: priceDataArr
       });
     } catch (error) {
@@ -57,12 +61,40 @@ export default class extends React.Component {
       this.setState({ loading: false });
     }
   };
+
+  setFilter = filter => {
+    try {
+      this.setState({
+        filter: filter
+      });
+    } catch (error) {
+      this.setState({ error: "No datas" });
+    } finally {
+      this.setState({ loading: false });
+    }
+  };
   componentDidMount() {
     this.renderItems(1);
     this.setType("List");
   }
+  componentDidUpdate(prevProps, prevState) {
+    const { filter } = prevState;
+    const { filter: stateFilter } = this.state;
+    if (filter !== stateFilter) {
+      this.renderItems(1);
+      this.setType("List");
+    }
+  }
   render() {
-    const { items, priceData, loading, pages, page, type } = this.state;
+    const {
+      items,
+      priceData,
+      loading,
+      pages,
+      page,
+      type,
+      category
+    } = this.state;
     return (
       <HomePresenter
         items={items}
@@ -72,7 +104,9 @@ export default class extends React.Component {
         pages={pages}
         page={page}
         setType={this.setType}
+        setFilter={this.setFilter}
         type={type}
+        category={category}
       />
     );
   }

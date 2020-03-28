@@ -18,16 +18,21 @@ const now = `${year}-${month.length === 1 ? "0" + month : month}-${
 }`;
 
 router.get("/kmug_items", (req, res) => {
-  connection.query(
-    `select * from kmugstore_data where date(crawlingTime) = '${now}' group by keyword`,
-    (err, rows) => {
-      if (!err && rows.length !== 0) {
-        res.json(rows);
-      } else {
-        res.json({ error: "can't find data!" });
-      }
+  const {
+    query: { filter }
+  } = req;
+  let query = `select * from kmugstore_data where date(crawlingTime) = '${now}' group by keyword`;
+  if (filter !== "null") {
+    query = `select * from kmugstore_data where date(crawlingTime) = '${now}' and category = '${filter}' group by keyword`;
+  }
+
+  connection.query(query, (err, rows) => {
+    if (!err && rows.length !== 0) {
+      res.json(rows);
+    } else {
+      res.json({ error: "can't find data!" });
     }
-  );
+  });
 });
 
 router.get("/kmug_items/:id", (req, res) => {
@@ -174,6 +179,19 @@ router.get("/chart_data/:keyword", (req, res) => {
         res.json({
           error: `can't find data!`
         });
+      }
+    }
+  );
+});
+
+router.get("/category", (req, res) => {
+  connection.query(
+    "select distinct category from kmugstore_data order by idx desc",
+    (err, rows) => {
+      if (!err) {
+        res.json(rows);
+      } else {
+        res.json({ error: "can't find data!" });
       }
     }
   );
