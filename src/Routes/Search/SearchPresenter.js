@@ -27,6 +27,12 @@ const Input = styled.input`
   width: 100%;
 `;
 
+const Header = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+`;
+
 const HomePresenter = ({
   searchTerm,
   updateTerm,
@@ -52,7 +58,9 @@ const HomePresenter = ({
       <>
         {items && items.length > 0 && type === "Image" && (
           <>
+          <Header>
             <ViewType setType={setType} />
+           </Header>
             <Section>
               {items.map(item => (
                 <Poster
@@ -71,7 +79,9 @@ const HomePresenter = ({
         )}
         {items && items.length > 0 && type === "List" && (
           <ListSection>
+            <Header>
             <ViewType setType={setType} />
+            </Header>
             {items.map(item => (
               <List
                 key={item.idx}
