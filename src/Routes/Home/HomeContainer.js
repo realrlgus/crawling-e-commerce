@@ -1,8 +1,6 @@
 import React from "react";
 import HomePresenter from "./HomePresenter";
-import queryString from "query-string";
 import { shopApi } from "../../api";
-import Pagination from "../../Components/Pagination";
 
 export default class extends React.Component {
   state = {

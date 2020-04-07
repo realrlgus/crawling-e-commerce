@@ -7,7 +7,6 @@ import {
   YAxis,
   Tooltip,
   Legend,
-  Label,
   ResponsiveContainer,
   Line
 } from "recharts";
@@ -25,8 +24,6 @@ const color = [
   "#ff7675",
   "#fd79a8"
 ];
-
-const date = "";
 
 const Chart = ({ width, height, data, salerData }) => (
   <SResponsiveContainer width="80%" height={300}>

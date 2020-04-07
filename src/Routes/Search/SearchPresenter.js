@@ -1,13 +1,11 @@
 import React from "react";
 import styled from "styled-components";
-import PropTypes from "prop-types";
 import Loader from "../../Components/Loader";
 import Section from "../../Components/Section";
 import List from "../../Components/List";
 import ListSection from "../../Components/ListSection";
 import ViewType from "../../Components/ViewType";
 import Poster from "../../Components/Poster";
-import Pagination from "../../Components/Pagination";
 import Message from "../../Components/Message";
 
 const Container = styled.div`

@@ -54,10 +54,6 @@ const Sale = styled.div`
   color: ${props => props.color};
 `;
 
-const SLink = styled(Link)`
-  display: block;
-`;
-
 const Poster = ({
   id,
   bgUrl,

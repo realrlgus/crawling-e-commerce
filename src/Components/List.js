@@ -72,10 +72,6 @@ const SLink = styled(Link)`
     margin-bottom: 10px;
   }
 `;
-const HR = styled.div`
-  margin: 2px 0px;
-  border-top: 1px solid #636e72;
-`;
 const Poster = ({
   id,
   bgUrl,

@@ -1,12 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import Loader from "Components/Loader";
-import { shopApi } from "../api";
-const Container = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-`;
+
 const Select = styled.select`
   width: 200px;
   height: 35px;
@@ -26,14 +20,6 @@ const Select = styled.select`
   }
 `;
 
-const Option = styled.option`
-  color: black;
-  background: white;
-  display: flex;
-  white-space: pre;
-  min-height: 20px;
-  padding: 0px 2px 1px;
-`;
 
 const Section = ({ setFilter, category }) => (
   <Select onChange={e => setFilter(e.target.value)}>

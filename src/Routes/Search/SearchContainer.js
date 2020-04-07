@@ -1,6 +1,5 @@
 import React from "react";
 import SearchPresenter from "./SearchPresenter";
-import queryString from "query-string";
 import { shopApi } from "../../api";
 
 export default class extends React.Component {

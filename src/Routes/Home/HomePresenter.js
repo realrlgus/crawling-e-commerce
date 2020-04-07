@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import PropTypes from "prop-types";
 import Loader from "../../Components/Loader";
 import Section from "../../Components/Section";
 import List from "../../Components/List";
@@ -8,7 +7,6 @@ import ListSection from "../../Components/ListSection";
 import ViewType from "../../Components/ViewType";
 import Poster from "../../Components/Poster";
 import Filter from "../../Components/Filter";
-import Pagination from "../../Components/Pagination";
 
 const Container = styled.div``;
 const Header = styled.div`
@@ -16,7 +14,6 @@ const Header = styled.div`
   justify-content: flex-end;
   align-items: center;
 `;
-const Item = styled.div``;
 const HomePresenter = ({
   items,
   priceData,
